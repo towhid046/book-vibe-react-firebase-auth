@@ -1,8 +1,9 @@
-import { useLoaderData } from "react-router-dom";
 import Book from "./../Book/Book";
+import { useContext } from "react";
+import { BookContext } from './../../providers/ContextProvider';
 
 const Books = () => {
-  const books = useLoaderData();
+  const {books} = useContext(BookContext);
   return (
     <div className="container mx-auto px-4 mb-16">
       <h1 className="text-center text-[40px] font-bold md:mb-10 mb-5">

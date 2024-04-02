@@ -1,12 +1,13 @@
-import { useLoaderData } from "react-router-dom";
-import { useState} from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cards from "./../../components/Cards/Cards";
 import Carts from "./../../components/Carts/Carts";
+import { BookContext } from "../../providers/ContextProvider";
 
 const Shop = () => {
   const [cartItems, setCartItems] = useState([]);
+  const { books } = useContext(BookContext);
 
   const handelRemoveFromCart = (id) => {
     toast.info("Book is remove from the cart");
@@ -20,12 +21,11 @@ const Shop = () => {
     if (!existedItem) {
       setCartItems([...cartItems, book]);
       toast.success("Book is added!");
-    } if(existedItem){
-        toast.error('Book already added!')
+    }
+    if (existedItem) {
+      toast.error("Book already added!");
     }
   };
-
-  const books = useLoaderData();
 
   return (
     <div className="container mx-auto px-4 gap-6 flex md:flex-row flex-col justify-between py-7">

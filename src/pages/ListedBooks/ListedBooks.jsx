@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { getItemFromLS } from "../../utility/localStorage";
 import ListedBook from "./../../components/ListedBook/ListedBook";
 import { sortArr } from "../../utility/sortArr";
 import "react-tabs/style/react-tabs.css";
 import NoBookAdded from "../../components/NoBookAdded/NoBookAdded";
+import { BookContext } from "../../providers/ContextProvider";
 
 const ListedBooks = () => {
   const [readBooks, setReadBooks] = useState([]);
@@ -13,7 +13,7 @@ const ListedBooks = () => {
 
   const [sortValue, setSortValue] = useState("");
 
-  const books = useLoaderData();
+  const {books} = useContext(BookContext);
 
   useEffect(() => {
     const readBooksIds = getItemFromLS("read-books");

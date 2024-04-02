@@ -8,8 +8,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PagesToRead from "./pages/PagesToRead/PagesToRead";
 import NotFound from "./pages/NotFound/NotFound";
-import WriteAReview from './pages/WriteAReview/WriteAReview';
-import Shop from './pages/Shop/Shop';
+import WriteAReview from "./pages/WriteAReview/WriteAReview";
+import Shop from "./pages/Shop/Shop";
+import ContextProvider from "./providers/ContextProvider";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -20,40 +21,37 @@ const App = () => {
       children: [
         {
           path: "/",
-          loader: () => fetch("/books.json"),
           element: <Home />,
         },
         {
           path: "/listed-books",
-          loader: () => fetch("/books.json"),
           element: <ListedBooks />,
         },
         {
           path: "/book/:bookId",
-          loader: () => fetch(`/books.json`),
           element: <BookDetails />,
         },
         {
           path: "/pages-to-read",
-          loader: () => fetch("/books.json"),
           element: <PagesToRead />,
         },
         {
           path: "/shop",
-          loader: () => fetch("/books.json"),
           element: <Shop />,
         },
         {
-          path: '/write-a-review',
-          element: <WriteAReview/>
-        }
+          path: "/write-a-review",
+          element: <WriteAReview />,
+        },
       ],
     },
   ]);
 
   return (
     <div>
-      <RouterProvider router={router} />
+      <ContextProvider>
+        <RouterProvider router={router} />
+      </ContextProvider>
       <ToastContainer />
     </div>
   );

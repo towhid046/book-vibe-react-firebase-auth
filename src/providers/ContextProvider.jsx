@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "firebase/auth";
 import { auth } from "../config/firebase";
 
 export const BookContext = createContext(null);
@@ -23,8 +23,12 @@ const ContextProvider = ({ children }) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
+  const logInUser = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password)
+  }
+
   const booksInfo = { books };
-  const authInfo = {createUser, user, setUser };
+  const authInfo = {createUser, user, setUser, logInUser };
   return (
     <>
       <AuthContext.Provider value={authInfo}>

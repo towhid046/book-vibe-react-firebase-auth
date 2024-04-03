@@ -23,8 +23,8 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="container mx-auto py-5 text-[#131313CC]">
-      <div className="navbar bg-base-100">
+    <nav className=" py-2 mb-5 sticky top-0 z-10 text-[#131313CC] bg-white shadow-sm">
+      <div className="navbar container mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -66,12 +66,12 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="navbar-end gap-4  font-semibold">
-          <button className="btn text-white bg-[#23BE0A] lg:text-lg">
+          <Link to={'/signin'} className="btn text-white bg-[#23BE0A] lg:text-lg">
             Sign In
-          </button>
-          <button className="hidden xl:flex btn text-white bg-[#59C6D2] lg:text-lg">
+          </Link>
+          <Link to={'signup'} className="hidden xl:flex btn text-white bg-[#59C6D2] lg:text-lg">
             Sign Up
-          </button>
+          </Link>
         </div>
       </div>
     </nav>

@@ -11,6 +11,8 @@ import NotFound from "./pages/NotFound/NotFound";
 import WriteAReview from "./pages/WriteAReview/WriteAReview";
 import Shop from "./pages/Shop/Shop";
 import ContextProvider from "./providers/ContextProvider";
+import SignIn from './components/SignIn/SignIn';
+import SignUp from './components/SignUp/SignUp';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -43,6 +45,14 @@ const App = () => {
           path: "/write-a-review",
           element: <WriteAReview />,
         },
+        {
+          path: 'signin',
+          element: <SignIn/>
+        },
+        {
+          path: '/signup',
+          element: <SignUp/>
+        }
       ],
     },
   ]);

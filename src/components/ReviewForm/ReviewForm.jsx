@@ -83,12 +83,12 @@ const ReviewForm = () => {
         </label>
         <br /> <br />
         <label htmlFor="">
-          <strong className="text-lg inline-block mb-2">Your Email:</strong>{" "}
+          <strong className="text-lg inline-block mb-2">Your Email (optional):</strong>{" "}
           <br />
           <input
             name="userEmail"
             type="email"
-            placeholder="Type Your Email"
+            placeholder="Your Email (optional)"
             className="input input-bordered w-full max-w-xs"
           />
         </label>

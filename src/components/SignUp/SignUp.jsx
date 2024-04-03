@@ -1,5 +1,24 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../providers/ContextProvider";
+
 const SignUp = () => {
+  const {createUser} = useContext(AuthContext);
+
+  const handelFormSubmit = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    createUser(email, password)
+      .then((result) => {
+        console.log(result?.user);
+        e.target.reset();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <div className="hero min-h-screen container mx-auto px-4">
       <div className="hero-content flex-col">
@@ -10,7 +29,7 @@ const SignUp = () => {
           </p>
         </div>
         <div className="card shrink-0 w-full max-w-sm border bg-base-100">
-          <form className="card-body">
+          <form onSubmit={handelFormSubmit} className="card-body">
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Name</span>
@@ -28,7 +47,8 @@ const SignUp = () => {
               </label>
               <input
                 type="email"
-                placeholder="email"
+                name="email"
+                placeholder="Email"
                 className="input input-bordered"
                 required
               />
@@ -39,7 +59,8 @@ const SignUp = () => {
               </label>
               <input
                 type="password"
-                placeholder="password"
+                name="password"
+                placeholder="Password"
                 className="input input-bordered"
                 required
               />
@@ -56,7 +77,13 @@ const SignUp = () => {
           <div className="pb-5">
             <p className="text-center">
               Already have an account? <br />
-              Please <Link to={'/signin'} className="font-semibold underline text-blue-600">Log In</Link>
+              Please{" "}
+              <Link
+                to={"/signin"}
+                className="font-semibold underline text-blue-600"
+              >
+                Log In
+              </Link>
             </p>
           </div>
         </div>

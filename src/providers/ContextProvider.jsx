@@ -1,7 +1,13 @@
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { auth } from "../config/firebase";
+import { toast } from "react-toastify";
 
 export const BookContext = createContext(null);
 export const AuthContext = createContext(null);
@@ -24,15 +30,36 @@ const ContextProvider = ({ children }) => {
   };
 
   const logInUser = (email, password) => {
-    return signInWithEmailAndPassword(auth, email, password)
-  }
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  const resetUserPassword = (email) => {
+    return sendPasswordResetEmail(auth, email);
+  };
+
+  useEffect(()=>{
+    onAuthStateChanged(auth, currentUser=>{
+      console.log(currentUser)
+      if(!user){
+        setUser(currentUser)
+      }
+    })
+  },[user])
 
   const booksInfo = { books };
-  const authInfo = {createUser, user, setUser, logInUser };
+  const authInfo = {
+    createUser,
+    user,
+    setUser,
+    logInUser,
+    resetUserPassword,
+  };
   return (
     <>
       <AuthContext.Provider value={authInfo}>
-        <BookContext.Provider value={booksInfo}>{children}</BookContext.Provider>
+        <BookContext.Provider value={booksInfo}>
+          {children}
+        </BookContext.Provider>
       </AuthContext.Provider>
     </>
   );

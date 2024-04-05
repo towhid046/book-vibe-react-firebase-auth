@@ -13,6 +13,7 @@ import Shop from "./pages/Shop/Shop";
 import ContextProvider from "./providers/ContextProvider";
 import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp';
+import ResetPassword from './components/ResetPassword/ResetPassword';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -52,6 +53,10 @@ const App = () => {
         {
           path: '/signup',
           element: <SignUp/>
+        },
+        {
+          path: '/resetpassword',
+          element: <ResetPassword/>
         }
       ],
     },

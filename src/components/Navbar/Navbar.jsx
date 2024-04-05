@@ -61,14 +61,16 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 gap-2 text-lg font-normal"
             >
               {links}
-              <li>
-                <Link
-                  to="/signup"
-                  className="btn text-white bg-[#59C6D2] lg:text-lg "
-                >
-                  Sign Up
-                </Link>
-              </li>
+              {!user && (
+                <li>
+                  <Link
+                    to="/signup"
+                    className="btn text-white bg-[#59C6D2] lg:text-lg "
+                  >
+                    Sign Up
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
           <Link
@@ -89,7 +91,7 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button">
                 <div className="text-3xl rounded-full">
-                  <FaRegUserCircle />
+                  <FaRegUserCircle title={user?.displayName || "User"} />
                 </div>
               </div>
               <ul

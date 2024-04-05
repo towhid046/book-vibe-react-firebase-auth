@@ -1,12 +1,18 @@
-import { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../providers/ContextProvider';
-import { toast } from 'react-toastify';
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../providers/ContextProvider";
+import { toast } from "react-toastify";
+import googleLogo from "../../assets/images/google-logo.png";
+import githubLogo from "../../assets/images/github-logo.png";
+import { LuEye } from "react-icons/lu";
+import { FiEyeOff } from "react-icons/fi";
 
 const SignIn = () => {
+  const { logInUser, logInWithGoogle, logInWithGithub } = useContext(AuthContext);
+  const [isPasswordShow, setIsPasswordShow] = useState(false);
 
-  const {logInUser} = useContext(AuthContext);
-  const navigate = useNavigate()
+
+  const navigate = useNavigate();
 
   const handelSingInForm = (e) => {
     e.preventDefault();
@@ -14,13 +20,33 @@ const SignIn = () => {
     const password = e.target.password.value;
     logInUser(email, password)
       .then((result) => {
-        toast.success('Log in Success')
-        navigate('/')
+        toast.success("Log in Success");
+        navigate("/");
         e.target.reset();
       })
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  const handelPasswordShow = () => {
+    setIsPasswordShow(!isPasswordShow);
+  };
+
+  const handelLogInWithGoogle = () => {
+    logInWithGoogle()
+      .then((result) => {
+        navigate("/");
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const handelLogInWithGithub = () => {
+    logInWithGithub()
+      .then((result) => {
+        navigate("/");
+      })
+      .catch((error) => console.error(error));
   };
 
   return (
@@ -29,7 +55,7 @@ const SignIn = () => {
         <div className="text-center">
           <h1 className="text-4xl font-bold">Login now!</h1>
           <p className="py-6">
-           Sing in now to get access more and increase your knowledge 10x
+            Sing in now to get access more and increase your knowledge 10x
           </p>
         </div>
         <div className="card shrink-0 w-full max-w-sm border bg-base-100">
@@ -40,25 +66,37 @@ const SignIn = () => {
               </label>
               <input
                 type="email"
-                name='email'
+                name="email"
                 placeholder="Email"
                 className="input input-bordered"
                 required
               />
             </div>
-            <div className="form-control">
+            <div className="">
+              <div className="relative">
+                <label className="label">
+                  <span className="label-text">Create Password</span>
+                </label>
+                <input
+                  type={isPasswordShow ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  className="input input-bordered w-full"
+                  required
+                />
+                <div
+                  onClick={handelPasswordShow}
+                  className="absolute right-3 bottom-4 cursor-pointer"
+                >
+                  {isPasswordShow ? <LuEye /> : <FiEyeOff />}
+                </div>
+              </div>
+
               <label className="label">
-                <span className="label-text">Password</span>
-              </label>
-              <input
-                type="password"
-                name='password'
-                placeholder="Password"
-                className="input input-bordered"
-                required
-              />
-              <label className="label">
-              <Link to={'/resetpassword'} className="label-text-alt link link-hover">
+                <Link
+                  to={"/resetpassword"}
+                  className="label-text-alt link link-hover"
+                >
                   Forgot password?
                 </Link>
               </label>
@@ -67,10 +105,38 @@ const SignIn = () => {
               <button className="btn btn-primary">Login</button>
             </div>
           </form>
+          <div>
+            <div className="text-center mb-4">
+              <h2 className="text-2xl">Or</h2>
+              <p>Sign Up with</p>
+            </div>
+            <div className="flex justify-center gap-5">
+              <button
+                onClick={handelLogInWithGoogle}
+                className="btn mb-2 flex items-center gap-2"
+              >
+                <img className="w-8" src={googleLogo} alt="" />
+                <span> Google</span>
+              </button>
+              <button
+                onClick={handelLogInWithGithub}
+                className="btn flex items-center gap-2"
+              >
+                <img className="w-8" src={githubLogo} alt="" />
+                <span>GitHub</span>
+              </button>
+            </div>
+          </div>
           <div className="pb-5">
             <p className="text-center">
-             Haven't any account? <br />
-              Please <Link to={'/signup'} className="font-semibold underline text-blue-600">Sign Up</Link>
+              Haven't any account? <br />
+              Please{" "}
+              <Link
+                to={"/signup"}
+                className="font-semibold underline text-blue-600"
+              >
+                Sign Up
+              </Link>
             </p>
           </div>
         </div>

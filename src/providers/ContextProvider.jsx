@@ -8,7 +8,7 @@ import {
   signOut,
   signInWithPopup,
 } from "firebase/auth";
-import { auth, googleProvider } from "../config/firebase";
+import { auth, githubProvider, googleProvider } from "../config/firebase";
 
 export const BookContext = createContext(null);
 export const AuthContext = createContext(null);
@@ -49,13 +49,13 @@ const ContextProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  const logInWithGoogle =() => {
+  const logInWithGoogle = () => {
     return signInWithPopup(auth, googleProvider)
-  }
+  };
 
-  const logInWithGithub =() => {
-    return signInWithPopup(auth, googleProvider)
-  }
+  const logInWithGithub = () => {
+    return signInWithPopup(auth, githubProvider);
+  };
 
   const booksInfo = { books };
   const authInfo = {
@@ -65,9 +65,10 @@ const ContextProvider = ({ children }) => {
     logInUser,
     resetUserPassword,
     logOut,
-    logInWithGoogle
+    logInWithGoogle,
+    logInWithGithub,
   };
-  
+
   return (
     <>
       <AuthContext.Provider value={authInfo}>

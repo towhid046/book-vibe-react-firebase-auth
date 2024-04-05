@@ -5,11 +5,12 @@ import { useState } from "react";
 import { LuEye } from "react-icons/lu";
 import { FiEyeOff } from "react-icons/fi";
 import { toast } from "react-toastify";
-import googleLogo from '../../assets/images/google-logo.png'
-import githubLogo from '../../assets/images/github-logo.png'
+import googleLogo from "../../assets/images/google-logo.png";
+import githubLogo from "../../assets/images/github-logo.png";
 
 const SignUp = () => {
-  const { createUser, logInWithGoogle } = useContext(AuthContext);
+  const { createUser, logInWithGoogle, logInWithGithub } =
+    useContext(AuthContext);
   const [isPasswordShow, setIsPasswordShow] = useState(false);
 
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const SignUp = () => {
     const password = e.target.password.value;
     createUser(email, password)
       .then((result) => {
-        toast.success('Log in success')
+        toast.success("Log in success");
         navigate("/");
         e.target.reset();
       })
@@ -36,11 +37,19 @@ const SignUp = () => {
 
   const handelLogInWithGoogle = () => {
     logInWithGoogle()
-    .then(result=>{
-      navigate('/')
-    })
-    .catch(error=> console.error(error))
-  }
+      .then((result) => {
+        navigate("/");
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const handelLogInWithGithub = () => {
+    logInWithGithub()
+      .then((result) => {
+        navigate("/");
+      })
+      .catch((error) => console.error(error));
+  };
 
   return (
     <div className="hero min-h-screen container mx-auto px-4">
@@ -114,16 +123,22 @@ const SignUp = () => {
               <h2 className="text-2xl">Or</h2>
               <p>Sign Up with</p>
             </div>
-           <div className="flex justify-center gap-5">
-           <button onClick={handelLogInWithGoogle}  className="btn mb-2 flex items-center gap-2">
-              <img className="w-8"  src={googleLogo} alt="" />
-              <span> Google</span>
-            </button>
-            <button className="btn flex items-center gap-2">
-              <img  className="w-8" src={githubLogo} alt="" />
-              <span>GitHub</span>
-            </button>
-           </div>
+            <div className="flex justify-center gap-5">
+              <button
+                onClick={handelLogInWithGoogle}
+                className="btn mb-2 flex items-center gap-2"
+              >
+                <img className="w-8" src={googleLogo} alt="" />
+                <span> Google</span>
+              </button>
+              <button
+                onClick={handelLogInWithGithub}
+                className="btn flex items-center gap-2"
+              >
+                <img className="w-8" src={githubLogo} alt="" />
+                <span>GitHub</span>
+              </button>
+            </div>
           </div>
           <div className="py-5">
             <p className="text-center">

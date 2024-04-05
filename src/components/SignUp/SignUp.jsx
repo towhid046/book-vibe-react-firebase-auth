@@ -1,14 +1,18 @@
 import { useContext } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/ContextProvider";
 import { useState } from "react";
 import { LuEye } from "react-icons/lu";
 import { FiEyeOff } from "react-icons/fi";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import googleLogo from '../../assets/images/google-logo.png'
+import githubLogo from '../../assets/images/github-logo.png'
 
 const SignUp = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, logInWithGoogle } = useContext(AuthContext);
   const [isPasswordShow, setIsPasswordShow] = useState(false);
+
+  const navigate = useNavigate();
 
   const handelFormSubmit = (e) => {
     e.preventDefault();
@@ -16,18 +20,27 @@ const SignUp = () => {
     const password = e.target.password.value;
     createUser(email, password)
       .then((result) => {
-        <Navigate to='/signin'/>
+        toast.success('Log in success')
+        navigate("/");
         e.target.reset();
       })
       .catch((error) => {
         console.error(error);
-        toast.error('You have already sign up with this email')
+        toast.error("You have already sign up with this email");
       });
   };
 
   const handelPasswordShow = () => {
     setIsPasswordShow(!isPasswordShow);
   };
+
+  const handelLogInWithGoogle = () => {
+    logInWithGoogle()
+    .then(result=>{
+      navigate('/')
+    })
+    .catch(error=> console.error(error))
+  }
 
   return (
     <div className="hero min-h-screen container mx-auto px-4">
@@ -84,7 +97,10 @@ const SignUp = () => {
               </div>
 
               <label className="label">
-                <Link to={'/resetpassword'} className="label-text-alt link link-hover">
+                <Link
+                  to={"/resetpassword"}
+                  className="label-text-alt link link-hover"
+                >
                   Forgot password?
                 </Link>
               </label>
@@ -93,8 +109,24 @@ const SignUp = () => {
               <button className="btn btn-info w-full">Sign Up</button>
             </div>
           </form>
-          <div className="pb-5">
-          <p className="text-center">
+          <div>
+            <div className="text-center mb-4">
+              <h2 className="text-2xl">Or</h2>
+              <p>Sign Up with</p>
+            </div>
+           <div className="flex justify-center gap-5">
+           <button onClick={handelLogInWithGoogle}  className="btn mb-2 flex items-center gap-2">
+              <img className="w-8"  src={googleLogo} alt="" />
+              <span> Google</span>
+            </button>
+            <button className="btn flex items-center gap-2">
+              <img  className="w-8" src={githubLogo} alt="" />
+              <span>GitHub</span>
+            </button>
+           </div>
+          </div>
+          <div className="py-5">
+            <p className="text-center">
               Already have an account? <br />
               Please{" "}
               <Link

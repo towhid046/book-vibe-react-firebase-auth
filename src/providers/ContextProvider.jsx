@@ -5,9 +5,10 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   onAuthStateChanged,
+  signOut,
+  signInWithPopup,
 } from "firebase/auth";
-import { auth } from "../config/firebase";
-import { toast } from "react-toastify";
+import { auth, googleProvider } from "../config/firebase";
 
 export const BookContext = createContext(null);
 export const AuthContext = createContext(null);
@@ -37,14 +38,24 @@ const ContextProvider = ({ children }) => {
     return sendPasswordResetEmail(auth, email);
   };
 
-  useEffect(()=>{
-    onAuthStateChanged(auth, currentUser=>{
-      console.log(currentUser)
-      if(!user){
-        setUser(currentUser)
-      }
-    })
-  },[user])
+  useEffect(() => {
+    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unSubscribe();
+  }, []);
+
+  const logOut = () => {
+    return signOut(auth);
+  };
+
+  const logInWithGoogle =() => {
+    return signInWithPopup(auth, googleProvider)
+  }
+
+  const logInWithGithub =() => {
+    return signInWithPopup(auth, googleProvider)
+  }
 
   const booksInfo = { books };
   const authInfo = {
@@ -53,7 +64,10 @@ const ContextProvider = ({ children }) => {
     setUser,
     logInUser,
     resetUserPassword,
+    logOut,
+    logInWithGoogle
   };
+  
   return (
     <>
       <AuthContext.Provider value={authInfo}>

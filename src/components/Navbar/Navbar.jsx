@@ -1,12 +1,20 @@
 import { Link, NavLink } from "react-router-dom";
-import './../../../src/index.css';
+import "./../../../src/index.css";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/ContextProvider";
+import { FaRegUserCircle } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
 
-  const {user} = useContext(AuthContext)
-
+  const handelLogOut = () => {
+    logOut()
+      .then((result) => {
+        toast.success("Log out success");
+      })
+      .catch((error) => console.error(error));
+  };
   const links = (
     <>
       <li>
@@ -54,14 +62,19 @@ const Navbar = () => {
             >
               {links}
               <li>
-                <Link to='/signup' className="btn text-white bg-[#59C6D2] lg:text-lg ">
+                <Link
+                  to="/signup"
+                  className="btn text-white bg-[#59C6D2] lg:text-lg "
+                >
                   Sign Up
                 </Link>
               </li>
             </ul>
           </div>
           <Link
-           to={'/'} className="btn btn-ghost md:text-[28px] text-2xl font-bold text-[#131313]">
+            to={"/"}
+            className="btn btn-ghost md:text-[28px] text-2xl font-bold text-[#131313]"
+          >
             Book Vibe
           </Link>
         </div>
@@ -70,14 +83,49 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
+
         <div className="navbar-end gap-4  font-semibold">
-          <p>{user?.email}</p>
-          <Link to={'/signin'} className="btn text-white bg-[#23BE0A] lg:text-lg">
-            Sign In
-          </Link>
-          <Link to={'signup'} className="hidden xl:flex btn text-white bg-[#59C6D2] lg:text-lg">
-            Sign Up
-          </Link>
+          {user ? (
+            <div className="dropdown dropdown-end">
+              <div tabIndex={0} role="button">
+                <div className="text-3xl rounded-full">
+                  <FaRegUserCircle />
+                </div>
+              </div>
+              <ul
+                tabIndex={0}
+                className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <a className="justify-between">
+                    Profile
+                    <span className="badge">New</span>
+                  </a>
+                </li>
+                <li>
+                  <a>Settings</a>
+                </li>
+                <li>
+                  <button onClick={handelLogOut}>Logout</button>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <>
+              <Link
+                to={"/signin"}
+                className="btn text-white bg-[#23BE0A] lg:text-lg"
+              >
+                Sign In
+              </Link>
+              <Link
+                to={"signup"}
+                className="hidden xl:flex btn text-white bg-[#59C6D2] lg:text-lg"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

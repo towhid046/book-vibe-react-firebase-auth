@@ -1,10 +1,12 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/ContextProvider';
+import { toast } from 'react-toastify';
 
 const SignIn = () => {
 
-  const {logInUser, setUser, user} = useContext(AuthContext);
+  const {logInUser} = useContext(AuthContext);
+  const navigate = useNavigate()
 
   const handelSingInForm = (e) => {
     e.preventDefault();
@@ -12,8 +14,8 @@ const SignIn = () => {
     const password = e.target.password.value;
     logInUser(email, password)
       .then((result) => {
-        console.log(result?.user);
-        setUser(result?.user)
+        toast.success('Log in Success')
+        navigate('/')
         e.target.reset();
       })
       .catch((error) => {

@@ -55,9 +55,9 @@ const Navbar = () => {
             >
               {links}
               <li>
-                <button className="btn text-white bg-[#59C6D2] lg:text-lg ">
+                <Link to='/signup' className="btn text-white bg-[#59C6D2] lg:text-lg ">
                   Sign Up
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
